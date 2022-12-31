@@ -13,13 +13,28 @@
     position: absolute;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    bottom: -16px;
+    bottom: 11px;
     left: 46%;
     border-bottom-width: 7px;
     border-bottom-style: solid;
     transform: translate(-50%, -50%);
     animation: fadeIn 2s infinite
 }
+
+.active-menu-down::before{
+  content: " ";
+  border-bottom-color: #00abc5;
+  position: absolute;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  bottom: -21px;
+  left: 50%;
+  border-bottom-width: 7px;
+  border-bottom-style: solid;
+  transform: translate(-50%, -50%);
+}
+
+/*  */
 
 @keyfames fadeIn {
     0% {

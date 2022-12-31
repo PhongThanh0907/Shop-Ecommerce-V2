@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import Logo from "../assets/logo.png";
 import MenuIcon from "./MenuIcon";
 import TopNav from "./TopNav";
@@ -15,10 +16,10 @@ const TopBar = () => {
           className="lg:hidden ml-10"
           onClick={() => setOpenMenuMobile(!openMenuMobile)}
         >
-          <MenuIcon openMenu={openMenuMobile} />
+          <MenuIcon openMenuMobile={openMenuMobile} />
         </div>
       </div>
-      <TopNav />
+      <TopNav openMenuMobile={openMenuMobile} />
       <div className="flex items-center gap-4 justify-center">
         <img
           className="h-10 w-10"

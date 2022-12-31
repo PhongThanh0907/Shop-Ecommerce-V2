@@ -1,5 +1,7 @@
 import React from "react";
 import { SocialIcon } from "react-social-icons";
+
+import MenuBar from "./MenuBar";
 import TopBar from "./TopBar";
 
 const Header = () => {
@@ -22,6 +24,7 @@ const Header = () => {
         </div>
       </div>
       <TopBar />
+      <MenuBar />
     </div>
   );
 };
