@@ -12,8 +12,8 @@ const NewBestSeller = (props: Props) => {
         <div
           onClick={() => setTypeMenu(1)}
           className={` ${
-            typeMenu === 1 ? "pb-4 border-b-2 border-backgroundColor" : "pb-4"
-          } duration-200`}
+            typeMenu === 1 ? " border-b border-backgroundColor" : ""
+          } duration-200 pb-4`}
         >
           <h4
             className={`${
@@ -26,8 +26,8 @@ const NewBestSeller = (props: Props) => {
         <div
           onClick={() => setTypeMenu(2)}
           className={` ${
-            typeMenu === 2 ? "pb-4 border-b-2 border-backgroundColor" : "pb-4"
-          } duration-200`}
+            typeMenu === 2 ? " border-b border-backgroundColor" : ""
+          } duration-200 pb-4`}
         >
           <h4
             className={`${
