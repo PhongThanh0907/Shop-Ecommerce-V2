@@ -16,13 +16,12 @@ function App() {
               route.index ? (
                 <Route index key={index} element={route.element} />
               ) : (
-                <Route index key={index} element={route.element} />
+                <Route path={route.path} key={index} element={route.element} />
               )
             )}
           </Route>
         </Routes>
       </BrowserRouter>
-      ;
     </>
   );
 }

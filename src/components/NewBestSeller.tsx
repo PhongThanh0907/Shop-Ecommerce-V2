@@ -1,10 +1,31 @@
 import React, { useState } from "react";
 import ItemNewBestSeller from "./ItemNewBestSeller";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 type Props = {};
 
 const NewBestSeller = (props: Props) => {
   const [typeMenu, setTypeMenu] = useState<number>(1);
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 600,
+    slidesToShow: 4,
+    autoplay: true,
+    slidesToScroll: 2,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <div>
@@ -38,11 +59,14 @@ const NewBestSeller = (props: Props) => {
           </h4>
         </div>
       </div>
-      <div className="flex mt-6">
-        <ItemNewBestSeller />
-        <ItemNewBestSeller />
-        <ItemNewBestSeller />
-        <ItemNewBestSeller />
+      <div className="pt-10">
+        <Slider {...settings}>
+          <ItemNewBestSeller />
+          <ItemNewBestSeller />
+          <ItemNewBestSeller />
+          <ItemNewBestSeller />
+          <ItemNewBestSeller />
+        </Slider>
       </div>
     </div>
   );
