@@ -6,7 +6,7 @@ import TopBar from "./TopBar";
 
 const Header = () => {
   return (
-    <div>
+    <div id="top">
       <div className="grid grid-cols-1 lg:max-w-7xl lg:grid-cols-2 lg:mx-auto lg:py-3 lg:border-b lg:border-gray-200">
         <h4 className="text-center text-sm pt-4 text-gray-600 lg:pt-0">
           Welcome to GearXShop.vn

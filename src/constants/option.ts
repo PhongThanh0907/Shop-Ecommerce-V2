@@ -15,8 +15,8 @@ export const menuList = [
     title: "Menu",
     link: "/",
     list: [
-      { titleMenu: "Laptop", link: "/" },
-      { titleMenu: "GraphicsCard", link: "/" },
+      { titleMenu: "Laptop", link: "/products/laptop" },
+      { titleMenu: "GraphicsCard", link: "/products/graphicscard" },
       { titleMenu: "ComputerScreen", link: "/" },
       { titleMenu: "Keyboard", link: "/" },
     ],
@@ -30,14 +30,14 @@ export const listBanner = [Banner03, Banner01, Banner02, Banner04];
 
 export const menuBar = [
   { title: "Promotion", link: "/event" },
-  { title: "Best Seller", link: "/" },
+  { title: "Best Seller", link: "/bestseller" },
   { title: "Build Computer", link: "/" },
   {
     title: "GearXShop",
-    link: "/",
+    link: "/products/laptop",
     list: [
-      { titleMenu: "Laptop", link: "/" },
-      { titleMenu: "GraphicsCard", link: "/" },
+      { titleMenu: "Laptop", link: "/products/laptop" },
+      { titleMenu: "GraphicsCard", link: "/products/graphicscard" },
       { titleMenu: "ComputerScreen", link: "/" },
       { titleMenu: "Keyboard", link: "/" },
     ],
@@ -48,21 +48,34 @@ export const listBrand = [Lenovo, Msi, Intel, Acer, Logo, Ajazz];
 
 export const listFooter = [
   {
-    title: "Information", label: [
-      "Warranty, Returns", "Payment Guide", "Terms of use", "Confidentiality Agreement", "Operational Regulations"
-    ]
-  }, 
-  {title: "Support", label: [
-    "Introduce", "Contact information", "Q&A", "Tech news"
-  ]},
-  {title: "Category", label: [
-    "Accessory", "Mouse", "Furniture", "Keyboard", "PC Components"
-  ]}
+    title: "Information",
+    label: [
+      "Warranty, Returns",
+      "Payment Guide",
+      "Terms of use",
+      "Confidentiality Agreement",
+      "Operational Regulations",
+    ],
+  },
+  {
+    title: "Support",
+    label: ["Introduce", "Contact information", "Q&A", "Tech news"],
+  },
+  {
+    title: "Category",
+    label: ["Accessory", "Mouse", "Furniture", "Keyboard", "PC Components"],
+  },
 ];
 
 export const listMenuWizard = [
-  {title: "Home", link: "/"},
-  {title: "Promotion", link: "/"},
-  {title: "Best Seller", link: "/"},
-  {title: "Home", link: "/"},
-]
+  { title: "Home", link: "/" },
+  { title: "Promotion", link: "/" },
+  { title: "Best Seller", link: "/" },
+  { title: "Home", link: "/" },
+];
+
+export const listIcon = [
+  "https://github.com/PhongThanh0907/cf-house-clone/blob/main/public/assets/phone.png?raw=true",
+  "https://github.com/PhongThanh0907/cf-house-clone/blob/main/public/assets/zalo.png?raw=true",
+  "https://github.com/PhongThanh0907/cf-house-clone/blob/main/public/assets/logomessage.png?raw=true",
+];

@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import { Product } from "../types/product.type";
 import ItemFeaturedProduct from "./ItemFeaturedProduct";
+import { RootState } from "../app/store";
 
 type Props = {};
 
 const FeaturedProducts = (props: Props) => {
+  const { data: products, isLoading } = useSelector(
+    (state: RootState) => state.products
+  );
+
   return (
     <div>
       <div className=" border-b border-gray-300 pb-4">
@@ -12,10 +20,15 @@ const FeaturedProducts = (props: Props) => {
         </h1>
       </div>
       <div className="flex flex-col gap-y-6 py-8">
-        <ItemFeaturedProduct />
-        <ItemFeaturedProduct />
-        <ItemFeaturedProduct />
-        <ItemFeaturedProduct />
+        {isLoading ? (
+          <div className="loading"></div>
+        ) : (
+          <>
+            {products.slice(2, 6).map((item: Product) => (
+              <ItemFeaturedProduct key={item._id} item={item} />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

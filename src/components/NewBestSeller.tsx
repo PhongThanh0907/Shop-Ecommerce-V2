@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import ItemNewBestSeller from "./ItemNewBestSeller";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+import ItemNewBestSeller from "./ItemNewBestSeller";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 type Props = {};
 
 const NewBestSeller = (props: Props) => {
   const [typeMenu, setTypeMenu] = useState<number>(1);
+  const { data: products } = useSelector((state: RootState) => state.products);
+
   const settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 600,
     slidesToShow: 4,
     autoplay: true,
@@ -60,13 +65,23 @@ const NewBestSeller = (props: Props) => {
         </div>
       </div>
       <div className="pt-10">
-        <Slider {...settings}>
-          <ItemNewBestSeller />
-          <ItemNewBestSeller />
-          <ItemNewBestSeller />
-          <ItemNewBestSeller />
-          <ItemNewBestSeller />
-        </Slider>
+        {typeMenu === 1 ? (
+          <>
+            <Slider {...settings}>
+              {products.slice(10, 20).map((item) => (
+                <ItemNewBestSeller key={item._id} item={item} />
+              ))}
+            </Slider>
+          </>
+        ) : (
+          <>
+            <Slider {...settings}>
+              {products.slice(0, 10).map((item) => (
+                <ItemNewBestSeller key={item._id} item={item} />
+              ))}
+            </Slider>
+          </>
+        )}
       </div>
     </div>
   );

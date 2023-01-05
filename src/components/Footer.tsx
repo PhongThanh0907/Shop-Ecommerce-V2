@@ -31,8 +31,10 @@ const Footer = (props: Props) => {
             <div key={index}>
               <h4 className="font-semibold text-lg pb-3">{item.title}</h4>
               <ul>
-                {item.label.map((e) => (
-                  <li className="mb-1 text-md text-gray-600">{e}</li>
+                {item.label.map((e, index) => (
+                  <li key={index} className="mb-1 text-md text-gray-600">
+                    {e}
+                  </li>
                 ))}
               </ul>
             </div>

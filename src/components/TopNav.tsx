@@ -5,8 +5,6 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { menuList } from "../constants/option";
 import CancelButton from "./CancelButton";
 
-type Props = {};
-
 const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
@@ -14,12 +12,12 @@ const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
     <>
       <div className="hidden lg:flex gap-10 relative">
         {menuList.map((item, index) => (
-          <>
+          <div className="flex" key={index}>
             <Link
               className={`text-md font-semibold flex items-center  ${
                 item.list && openMenu ? "active-menu relative" : ""
               }`}
-              to={item.link}
+              to={`${item.list ? item.list[0].link : item.link}`}
               onClick={() => {
                 item.list ? setOpenMenu(!openMenu) : <></>;
               }}
@@ -47,6 +45,7 @@ const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
                       className="text-md text-gray-500 font-normal hover:text-textColor duration-300 hover:bg-gray-200 w-40 py-2 pl-4 rounded-md"
                       to={itemMenu.link}
                       key={index}
+                      onClick={() => setOpenMenu(false)}
                     >
                       {itemMenu.titleMenu}
                     </Link>
@@ -62,7 +61,7 @@ const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
             ) : (
               <div className="absolute px-4 py-5 left-0 -top-16 duration-500 right-0 opacity-0"></div>
             )}
-          </>
+          </div>
         ))}
       </div>
       <div className="flex flex-col lg:hidden">
@@ -72,8 +71,8 @@ const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
               openMenu ? "h-96" : "h-44"
             } opacity-100 duration-300 mx-8 flex flex-col gap-y-2`}
           >
-            {menuList.map((item) => (
-              <>
+            {menuList.map((item, index) => (
+              <div key={index} className="flex">
                 <Link
                   className="text-sm font-semibold flex items-center"
                   to={item.link}
@@ -113,7 +112,7 @@ const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
                 ) : (
                   <div className="duration-500 h-0 opacity-0 w-full"></div>
                 )}
-              </>
+              </div>
             ))}
           </div>
         ) : (

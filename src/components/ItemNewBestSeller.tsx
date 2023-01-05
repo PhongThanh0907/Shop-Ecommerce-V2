@@ -1,29 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
+import { Product } from "../types/product.type";
+
 type Props = {};
 
-const ItemNewBestSeller = ({ oldPrice }: { oldPrice?: string }) => {
+const ItemNewBestSeller = ({
+  oldPrice,
+  item,
+}: {
+  oldPrice?: number;
+  item: Product;
+}) => {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
   return (
-    <div className="p-6 border-r border-gray-200 group hover:shadow-lg rounded-md">
-      <h1 className="text-gray-400 text-sm">Lenovo</h1>
-      <Link to="/" className="text-blue-600 font-semibold text-md">
-        Màn hình Lenovo L24Q-35 | 23.8Inch - 2K - QHD - 75HZ - IPS
-      </Link>
-      <img
-        className="w-[100%]"
-        src="https://gearshop.vn/upload/resizer.php?src=https://gearshop.vn/upload/images/Product/Lenovo/M%C3%A0n%20h%C3%ACnh/L24Q-35/Ma%CC%80n-hi%CC%80nh-Lenovo-L24Q-35--(4).jpg&w=1200&h=1200&q=72&zc=2"
-        alt=""
-      />
-      <div className="flex justify-between items-center py-2">
-        <p className="text-red-500 text-xl font-semibold">4,490,000</p>
-        <p className="text-gray-400 text-sm mt-2 line-through">{oldPrice}</p>
-        <div className="p-2 opacity-40 bg-gray-300 rounded-full mr-2 group-hover:opacity-100 duration-300 group-hover:bg-backgroundColor text-white">
-          <ShoppingCartIcon className="h-5 w-5" />
+    <>
+      {loading ? (
+        <div className="loading h-[420px] w-full lg:w-[224px]"></div>
+      ) : (
+        <div className="p-6 border-r border-gray-200 group hover:shadow-lg rounded-md">
+          <h1 className="text-gray-400 text-sm">Lenovo</h1>
+          <Link
+            to="/"
+            className="text-blue-600 font-semibold text-md h-28 flex"
+          >
+            {item.nameProduct}
+          </Link>
+          <img className="w-[100%]" src={item.imageProduct[0]} alt="" />
+          <div className="flex justify-between items-center py-2 pt-6">
+            <p className="text-red-500 text-xl font-semibold">
+              {item.price.toLocaleString("vi-Vn")}đ
+            </p>
+            <p className="text-gray-400 text-sm mt-2 line-through mx-2">
+              {oldPrice && <>{oldPrice?.toLocaleString("vi-VN")}</>}
+            </p>
+            <div className="p-2 opacity-40 bg-gray-300 rounded-full mr-2 group-hover:opacity-100 duration-300 group-hover:bg-backgroundColor text-white">
+              <ShoppingCartIcon className="h-5 w-5" />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

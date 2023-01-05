@@ -4,12 +4,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import ItemPopularProduct from "./ItemPopularProduct";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 type Props = {};
 
 const PopularProducts = (props: Props) => {
+  const { data: products } = useSelector((state: RootState) => state.products);
+
   const settings = {
-    infinite: false,
+    infinite: true,
     speed: 600,
     slidesToShow: 2,
     dots: true,
@@ -34,14 +38,11 @@ const PopularProducts = (props: Props) => {
           Popular Products
         </h1>
       </div>
-      <div>
+      <div className="pt-10">
         <Slider {...settings}>
-          <ItemPopularProduct />
-          <ItemPopularProduct />
-          <ItemPopularProduct />
-          <ItemPopularProduct />
-          <ItemPopularProduct />
-          <ItemPopularProduct />
+          {products.map((item) => (
+            <ItemPopularProduct key={item._id} item={item} />
+          ))}
         </Slider>
       </div>
     </div>

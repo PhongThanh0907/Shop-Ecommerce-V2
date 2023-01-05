@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import Logo from "../assets/logo.png";
 import MenuIcon from "./MenuIcon";
@@ -11,7 +12,9 @@ const TopBar = () => {
     <div className="lg:max-w-7xl lg:mx-auto lg:grid lg:grid-cols-3">
       <div className="flex items-center justify-center py-4">
         <img className="h-16 w-16" src={Logo} alt="logo" />
-        <h1 className="italic text-2xl font-bold">GEARXSHOP</h1>
+        <Link to="/">
+          <h1 className="italic text-2xl font-bold">GEARXSHOP</h1>
+        </Link>
         <div
           className="lg:hidden ml-10"
           onClick={() => setOpenMenuMobile(!openMenuMobile)}

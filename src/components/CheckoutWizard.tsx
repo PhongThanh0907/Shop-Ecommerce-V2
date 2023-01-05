@@ -4,16 +4,19 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   activeStep: number;
+  state?: string;
+  nameProduct?: string;
 }
 
-const CheckoutWizard = ({ activeStep = 0 }: Props) => {
+const CheckoutWizard = ({ activeStep = 0, state, nameProduct }: Props) => {
   const navigate = useNavigate();
 
   return (
     <div className="flex mb-4 lg:mb-5 flex-wrap lg:max-w-7xl mx-auto px-6 lg:px-16 ">
       {[
         "Home",
-        "Promotion",
+        `${state}`,
+        `${nameProduct}`,
         "Địa Chỉ Giao Hàng",
         "Phương Thức Thanh Toán",
         "Xác Nhận Đơn Hàng",
@@ -23,7 +26,7 @@ const CheckoutWizard = ({ activeStep = 0 }: Props) => {
             index === 0 && navigate("/");
           }}
           key={index}
-          className={`flex items-center text-sm font-semibold lg:pt-8  capitalize
+          className={`flex items-center text-sm font-semibold lg:pt-8 capitalize 
       text-center ${index <= activeStep ? "" : "hidden"} ${
             index === activeStep ? "text-gray-500" : ""
           } ${index === 0 && "cursor-pointer"}`}

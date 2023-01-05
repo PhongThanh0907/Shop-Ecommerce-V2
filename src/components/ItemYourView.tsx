@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Product } from "../types/product.type";
 
-type Props = {};
+const ItemYourView = ({ item }: { item: Product }) => {
+  const [loading, setLoading] = useState<boolean>(true);
 
-const ItemYourView = (props: Props) => {
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
   return (
-    <div className="text-center">
-      <img
-        className="h-full w-full"
-        src="https://gearshop.vn/upload/resizer.php?src=https://gearshop.vn/upload/images/Product/Akko/Kit/MOD007S/Kit-AKKO-Designer-Studio-MOD007S.jpg&w=250&h=232&q=72&zc=2"
-        alt=""
-      />
-      <p className="text-gray-400 text-sm my-4">KIT AKKO</p>
-      <h1 className="mx-8">Kit AKKO Designer Studio MOD007S</h1>
-      <p className="text-red-500 text-xl mt-2 font-semibold">4,999,000</p>
-    </div>
+    <>
+      {loading ? (
+        <div className="loading h-[520px] w-full lg:w-[280px]"></div>
+      ) : (
+        <div className="text-center">
+          <img className="h-full w-full" src={item.imageProduct[0]} alt="" />
+          <p className="text-gray-400 text-sm my-4">{item.brand}</p>
+          <h1 className="mx-8">{item.nameProduct}</h1>
+          <p className="text-red-500 text-xl mt-2 font-semibold">
+            {item.price.toLocaleString("vi-Vn")}đ
+          </p>
+        </div>
+      )}
+    </>
   );
 };
 
