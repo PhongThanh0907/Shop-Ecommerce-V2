@@ -1,26 +1,33 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Product } from "../types/product.type";
 import CountDown from "./Coutdown";
 
-type Props = {};
-
-const ItemPromotion = (props: Props) => {
+const ItemPromotion = ({ item }: { item: Product }) => {
   return (
-    <div className=" lg:flex gap-10">
+    <div className=" lg:grid grid-cols-2 gap-10">
       <div className="">
         <img
-          className="h-[100%] w-[75%] mx-auto"
-          src="https://gearshop.vn/upload/resizer.php?src=https://gearshop.vn/upload/images/Product/Leopold/FC900R%20BT%20Coral%20Blue/Leopold-FC900R-BT-Coral-Blue-(9).jpg&w=600&h=600&q=72&zc=2"
+          className="h-[100%] w-[60%] mx-auto object-cover"
+          src={item.imageProduct[0]}
           alt=""
         />
       </div>
       <div className="pt-10 border-t border-gray-400 mt-10 text-center">
-        <h1 className="text-xl text-blue-600 font-semibold">
-          Keyboard Leopold FC900R BT Coral Blue | Cherry Switch
-        </h1>
+        <Link to={`/products/${item._id}`}>
+          <h1 className="text-xl text-blue-600 font-semibold">
+            {item.nameProduct}
+          </h1>
+        </Link>
+
         <div className="flex my-3 justify-center gap-4">
-          <p className="text-red-500 text-xl font-semibold">3,750,000đ</p>
+          <p className="text-red-500 text-xl font-semibold">
+            {item.price.toLocaleString("vi-VN")}đ
+          </p>
           <p className="mt-[7px] text-sm line-through text-gray-400">
-            3,950,000đ
+            {item.oldPrice === 0
+              ? "19.899.000đ"
+              : item.oldPrice.toLocaleString("vi-VN")}
           </p>
         </div>
 

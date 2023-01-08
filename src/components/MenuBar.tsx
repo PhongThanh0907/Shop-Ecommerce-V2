@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import {
   MagnifyingGlassIcon,
-  UserIcon,
-  HeartIcon,
-  ShoppingBagIcon,
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
@@ -38,6 +35,7 @@ const MenuBar = (props: Props) => {
                         ? "border-b border-gray-300 px-2"
                         : "flex items-center justify-between group px-2"
                     } hover:bg-gray-200 duration-300 rounded-md`}
+                    state={item.title}
                     to={item.link}
                     key={index}
                   >

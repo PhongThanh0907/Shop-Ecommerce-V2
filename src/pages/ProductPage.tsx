@@ -13,6 +13,8 @@ import CheckoutWizard from "../components/CheckoutWizard";
 import FeaturedProducts from "../components/FeaturedProducts";
 import ItemNewBestSeller from "../components/ItemNewBestSeller";
 import ItemProduct from "../components/ItemProduct";
+import useDebounce from "../hooks/useDebounce";
+import ListProductFilter from "../components/ListProductFilter";
 
 type Props = {
   state: string;
@@ -23,6 +25,11 @@ const ProductPage = (state: Props) => {
   const [modalMenu, setModalMenu] = useState<boolean>(true);
   const [changeGrid, setChangeGrid] = useState<boolean>(false);
   const [price, setPrice] = useState<string>("5000000");
+  const [filterByBrand, setFilterByBrand] = useState<string>();
+  const [typeSort, setTypeSort] = useState<number>();
+
+  const debouncedValue = useDebounce<string>(price, 1000);
+
   // const handleInput = (e) => {
   //   setPrice(e.target.value);
   // };
@@ -61,11 +68,12 @@ const ProductPage = (state: Props) => {
                 {withoutDuplicate.map((item, index) => (
                   <span
                     key={index}
+                    onClick={() => setFilterByBrand(item.brand)}
                     className={`text-md text-gray-600 ${
                       index < withoutDuplicate.length - 1
                         ? "border-b border-gray-200 "
                         : ""
-                    } pl-8 py-2`}
+                    } pl-8 py-2 cursor-pointer`}
                   >
                     {item.brand} (
                     <span className="text-xs text-gray-500">
@@ -90,7 +98,7 @@ const ProductPage = (state: Props) => {
             <input
               className="w-full mt-6"
               min={1000000}
-              max={100000000}
+              max={10000000}
               step={200000}
               type="range"
               onChange={(e) => setPrice(e.target.value)}
@@ -127,44 +135,25 @@ const ProductPage = (state: Props) => {
               <select
                 id="filter"
                 className="border border-backgroundColor rounded-xl py-1 px-2 focus:outline-none focus:shadow-outline text-gray-400 mr-8 sm:mr-2"
-                // onChange={(e) => setTypePrice(e.target.value)}
+                onChange={(e: any) => setTypeSort(e.target.value)}
               >
                 <option className="w-[100px]" value="1">
                   Sort By
                 </option>
-                <option value="0">Default</option>
+                <option value="1">Default</option>
                 <option value="1">Price: Low to high</option>
                 <option value="-1">Price: High to Low</option>
               </select>
             </div>
           </div>
-          {changeGrid === false ? (
-            <div className="grid grid-cols-4 gap-2 gap-y-2 ">
-              {products
-                .filter((e) => e.type === state.state)
-                .map((item) => (
-                  <ItemNewBestSeller key={item._id} item={item} />
-                ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-2 gap-y-2 ">
-              {products
-                .filter((e) => e.type === state.state)
-                .map((item, index) => (
-                  <div
-                    key={index}
-                    className={`${
-                      index <
-                      products.filter((e) => e.type === state.state).length - 1
-                        ? "border-b border-gray-200"
-                        : ""
-                    }`}
-                  >
-                    <ItemProduct item={item} />
-                  </div>
-                ))}
-            </div>
-          )}
+
+          <ListProductFilter
+            type={state.state}
+            changeGird={changeGrid}
+            byBrand={filterByBrand}
+            price={debouncedValue}
+            typeSort={typeSort}
+          />
         </div>
       </div>
     </div>

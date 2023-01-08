@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NotFound from "./components/NotFound";
 
 import routes from "./routes/routes";
 import MainTemplate from "./templates/MainTemplate";
@@ -19,6 +19,7 @@ function App() {
                 <Route path={route.path} key={index} element={route.element} />
               )
             )}
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

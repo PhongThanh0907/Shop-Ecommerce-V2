@@ -1,8 +1,11 @@
-import BestSellerPage from "../pages/BestSellerPage";
 import HomePage from "../pages/HomePage";
+import Login from "../pages/Login";
+import Payment from "../pages/Payment";
+import ProductCart from "../pages/ProductCart";
 import ProductDetail from "../pages/ProductDetail";
 import ProductPage from "../pages/ProductPage";
 import PromotionProduct from "../pages/PromotionProduct";
+import Register from "../pages/Register";
 
 export const routesGen = {
   home: "/",
@@ -11,6 +14,8 @@ export const routesGen = {
 export const state = {
   LAPTOP: "laptop",
   CARD: "card",
+  PROMOTION: 1,
+  BESTSELLER: 2,
 };
 
 const routes = [
@@ -20,11 +25,11 @@ const routes = [
   },
   {
     path: "/event",
-    element: <PromotionProduct />,
+    element: <PromotionProduct state={state.PROMOTION} />,
   },
   {
     path: "/bestseller",
-    element: <BestSellerPage />,
+    element: <PromotionProduct state={state.BESTSELLER} />,
   },
   {
     path: "/products/laptop",
@@ -37,6 +42,22 @@ const routes = [
   {
     path: "/products/:productId",
     element: <ProductDetail />,
+  },
+  {
+    path: "/products/cart",
+    element: <ProductCart />,
+  },
+  {
+    path: "/products/payment",
+    element: <Payment />,
+  },
+  {
+    path: "/user/login",
+    element: <Login />,
+  },
+  {
+    path: "/user/register",
+    element: <Register />,
   },
 ];
 

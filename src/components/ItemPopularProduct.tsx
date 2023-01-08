@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Product } from "../types/product.type";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -24,14 +25,17 @@ const ItemPopularProduct = ({ item }: { item: Product }) => {
           </div>
           <div className="pt-6 pb-10 col-span-3">
             <p className="text-sm text-gray-400 font-semibold ">{item.brand}</p>
-            <h1 className="text-blue-600 font-semibold py-4 flex h-24">
-              {item.nameProduct}
-            </h1>
+            <Link to={`/products/${item._id}`}>
+              <h1 className="text-blue-600 font-semibold py-4 flex h-24">
+                {item.nameProduct}
+              </h1>
+            </Link>
+
             <div className="flex items-center justify-between">
               <p className="text-red-500 font-semibold text-xl">
                 {item.price.toLocaleString("vi-VN")}đ
               </p>
-              <div className="flex items-center p-2 opacity-40 bg-gray-300 rounded-full mr-2 group-hover:opacity-100 duration-300 group-hover:bg-backgroundColor text-white">
+              <div className="flex items-center p-2 opacity-40 cursor-pointer bg-gray-300 rounded-full mr-2 group-hover:opacity-100 duration-300 group-hover:bg-backgroundColor text-white">
                 <ShoppingCartIcon className="h-5 w-5" />
               </div>
             </div>

@@ -5,11 +5,14 @@ import Slider from "react-slick";
 
 import ItemPromotion from "../components/ItemPromotion";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 type Props = {};
 
 const Promotions = (props: Props) => {
   const slideRef = useRef<Slider>(null);
+  const { data: products } = useSelector((state: RootState) => state.products);
 
   function PrevArrow(props: HTMLProps<HTMLDivElement>) {
     return (
@@ -17,7 +20,7 @@ const Promotions = (props: Props) => {
         onClick={() => {
           slideRef.current?.slickPrev();
         }}
-        className="absolute cursor-pointer -top-20 -left-10 lg:top-0 z-10 lg:left-[56%] flex items-center justify-center gap-2"
+        className="absolute cursor-pointer -top-20 -left-10 lg:top-0 z-10 lg:left-[52%] flex items-center justify-center gap-2"
       >
         <ChevronLeftIcon className="h-6 w-6" />
         Xem trước
@@ -57,10 +60,9 @@ const Promotions = (props: Props) => {
       </div>
       <div className="relative p-10 mt-16 lg:mt-10 border-2 border-backgroundColor lg:mx-20 rounded-lg">
         <Slider {...settings} ref={slideRef}>
-          <ItemPromotion />
-          <ItemPromotion />
-          <ItemPromotion />
-          <ItemPromotion />
+          {products.slice(10, 14).map((item) => (
+            <ItemPromotion key={item._id} item={item} />
+          ))}
         </Slider>
       </div>
     </div>
