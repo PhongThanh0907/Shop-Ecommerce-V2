@@ -1,12 +1,15 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CheckoutWizard from "../components/CheckoutWizard";
 import { useFetch } from "../hooks/useFetch";
 import { Product } from "../types/product.type";
 import LoadingButton from "../components/LoadingButton";
-import CancelButton from "../components/CancelButton";
+import Cart from "../components/Cart";
+import { AppDispatch, RootState } from "../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AddCart, OpenModalCart } from "../app/features/cart/cartReducer";
 
 type Props = {};
 
@@ -17,9 +20,10 @@ const ProductDetail = (props: Props) => {
   const [changeImage, setChangeImage] = useState<string>("");
   const [indexImage, setIndexImage] = useState<number>(0);
   const [modalBuy, setModalBuy] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<string>("1");
   const { data } = useFetch(`products/${productId}`);
-  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { openModal } = useSelector((state: RootState) => state.cart);
+
   useEffect(() => {
     if (productId) {
       setProduct(data);
@@ -124,11 +128,11 @@ const ProductDetail = (props: Props) => {
               <p className="text-sm text-gray-500 ">Quantity:</p>
               <input
                 type="number"
+                disabled
                 className="focus:outline-none w-[70%] border border-gray-300 rounded-3xl py-2 pl-6 my-2"
                 defaultValue={1}
-                onChange={(value) => setQuantity(value.target.value)}
               />
-              {modalBuy ? (
+              {openModal ? (
                 <div className="lds-ring my-4 mx-auto">
                   <div />
                   <div />
@@ -137,7 +141,11 @@ const ProductDetail = (props: Props) => {
                 </div>
               ) : (
                 <button
-                  onClick={() => setModalBuy(!modalBuy)}
+                  onClick={() => {
+                    dispatch(AddCart(product));
+                    dispatch(OpenModalCart(true));
+                    setModalBuy(!modalBuy);
+                  }}
                   className="my-4 text-white flex items-center bg-backgroundColor py-3 justify-center gap-2 rounded-3xl font-semibold hover:bg-[#00c0dd] duration-300 active:bg-[#008da3]"
                 >
                   <ShoppingCartIcon className="w-6 h-6" /> Buy now{" "}
@@ -160,54 +168,6 @@ const ProductDetail = (props: Props) => {
               Hotline:{" "}
               <span className="text-blue-500">0938458350 - 0979399509</span>
             </p>
-            {modalBuy ? (
-              <div className="absolute -top-[93px] -left-10 -right-10 bg-white border-2 border-backgroundColor p-8 opacity-100 duration-300">
-                <div className="grid grid-cols-5 gap-2 border-b border-gray-200">
-                  <div className="col-span-2">
-                    {product?.imageProduct.slice(0, 1).map((e) => (
-                      <img src={e} alt="logo" />
-                    ))}
-                  </div>
-                  <div className="col-span-3">
-                    <h1 className="text-sm text-blue-600 font-semibold mt-2">
-                      {product?.nameProduct}
-                    </h1>
-                    <p className="text-gray-700 mt-2">
-                      {quantity} <span>x</span>{" "}
-                      {product?.price?.toLocaleString("vi-VN")}đ
-                    </p>
-                  </div>
-                </div>
-                <p className="mt-4 font-semibold">
-                  Total price:{" "}
-                  <span className="text-red-500 font-bold">
-                    {" "}
-                    {(
-                      parseInt(quantity) * (product?.price || 0)
-                    ).toLocaleString("vi-VN")}
-                    đ
-                  </span>
-                </p>
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => navigate("/products/cart")}
-                    className="w-[50%] text-center bg-backgroundColor text-white font-bold mt-4 py-2 rounded-3xl"
-                  >
-                    Order
-                  </button>
-                </div>
-                <div
-                  onClick={() => {
-                    setModalBuy(false);
-                  }}
-                  className="absolute top-4 right-4"
-                >
-                  <CancelButton />
-                </div>
-              </div>
-            ) : (
-              <div className="-top-[500px] -left-10 -right-10 duration-300 opacity-0 bg-white"></div>
-            )}
           </div>
         </div>
       )}

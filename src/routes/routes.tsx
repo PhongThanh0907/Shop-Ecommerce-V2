@@ -32,12 +32,16 @@ const routes = [
     element: <PromotionProduct state={state.BESTSELLER} />,
   },
   {
+    path: "/products",
+    element: <ProductPage />,
+  },
+  {
     path: "/products/laptop",
-    element: <ProductPage state={state.LAPTOP} />,
+    element: <ProductPage type={state.LAPTOP} />,
   },
   {
     path: "/products/graphicscard",
-    element: <ProductPage state={state.CARD} />,
+    element: <ProductPage type={state.CARD} />,
   },
   {
     path: "/products/:productId",

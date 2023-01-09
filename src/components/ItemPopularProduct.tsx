@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+
 import { Product } from "../types/product.type";
 import { Link } from "react-router-dom";
-
-type Props = {};
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../app/store";
+import { AddCart } from "../app/features/cart/cartReducer";
 
 const ItemPopularProduct = ({ item }: { item: Product }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     setTimeout(() => {
@@ -35,7 +38,10 @@ const ItemPopularProduct = ({ item }: { item: Product }) => {
               <p className="text-red-500 font-semibold text-xl">
                 {item.price.toLocaleString("vi-VN")}đ
               </p>
-              <div className="flex items-center p-2 opacity-40 cursor-pointer bg-gray-300 rounded-full mr-2 group-hover:opacity-100 duration-300 group-hover:bg-backgroundColor text-white">
+              <div
+                onClick={() => dispatch(AddCart(item))}
+                className="flex items-center p-2 opacity-40 cursor-pointer bg-gray-300 rounded-full mr-2 group-hover:opacity-100 duration-300 group-hover:bg-backgroundColor text-white"
+              >
                 <ShoppingCartIcon className="h-5 w-5" />
               </div>
             </div>

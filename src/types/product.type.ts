@@ -9,4 +9,5 @@ export interface Product {
     bestSeller: boolean,
     description: string,
     oldPrice: number,
+    quantity: number
 }

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
 
 import { Product } from "../types/product.type";
-
-type Props = {};
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../app/store";
+import { AddCart } from "../app/features/cart/cartReducer";
 
 const ItemProduct = ({ item }: { item: Product }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     setTimeout(() => {
@@ -48,7 +50,10 @@ const ItemProduct = ({ item }: { item: Product }) => {
             <h4 className="text-red-500 text-xl my-4">
               {item.price.toLocaleString("vi-VN")}đ
             </h4>
-            <button className="flex items-center gap-4 w-full justify-center bg-gray-200 py-2 rounded-3xl text-white font-bold hover:bg-backgroundColor duration-300 active:bg-[#01bedb]">
+            <button
+              onClick={() => dispatch(AddCart(item))}
+              className="flex items-center gap-4 w-full justify-center bg-gray-200 py-2 rounded-3xl text-white font-bold hover:bg-backgroundColor duration-300 active:bg-[#01bedb]"
+            >
               Buy now <ShoppingCartIcon className="w-5 h-5" />
             </button>
           </div>

@@ -10,10 +10,11 @@ import MenuIcon from "./MenuIcon";
 import { menuBar } from "../constants/option";
 import CancelButton from "./CancelButton";
 import CartUser from "./CartUser";
-type Props = {};
+import Cart from "./Cart";
 
-const MenuBar = (props: Props) => {
+const MenuBar = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   return (
     <div className="my-8 lg:my-0 bg-backgroundColor text-white">
@@ -78,14 +79,17 @@ const MenuBar = (props: Props) => {
             className="p-2 w-full px-8 focus:outline-none focus:shadow-outline text-gray-500 rounded-l-3xl"
             type="text"
             placeholder="Search..."
-            // onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
-          <div className="p-2 px-6 bg-black opacity-70 col-span-1 rounded-r-3xl hover:opacity-85 duration-300 active:opacity-100">
-            <MagnifyingGlassIcon className="h-6 w-6" />
-          </div>
+          <Link to="/products" state={{ valueSearch: searchValue }}>
+            <div className="p-2 px-6 bg-black opacity-70 col-span-1 rounded-r-3xl hover:opacity-85 duration-300 active:opacity-100">
+              <MagnifyingGlassIcon className="h-6 w-6" />
+            </div>
+          </Link>
         </div>
-        <div className="hidden lg:flex justify-center items-center">
+        <div className="hidden lg:flex justify-center items-center relative">
           <CartUser />
+          <Cart />
         </div>
       </div>
     </div>

@@ -1,32 +1,31 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   ChevronRightIcon,
   ChevronUpIcon,
   BarsArrowDownIcon,
   BarsArrowUpIcon,
-  StarIcon,
 } from "@heroicons/react/24/outline";
 
 import { RootState } from "../app/store";
 import CheckoutWizard from "../components/CheckoutWizard";
 import FeaturedProducts from "../components/FeaturedProducts";
-import ItemNewBestSeller from "../components/ItemNewBestSeller";
-import ItemProduct from "../components/ItemProduct";
 import useDebounce from "../hooks/useDebounce";
 import ListProductFilter from "../components/ListProductFilter";
+import { useLocation } from "react-router-dom";
 
 type Props = {
-  state: string;
+  type?: string;
 };
 
-const ProductPage = (state: Props) => {
+const ProductPage = (type: Props) => {
   const { data: products } = useSelector((state: RootState) => state.products);
   const [modalMenu, setModalMenu] = useState<boolean>(true);
   const [changeGrid, setChangeGrid] = useState<boolean>(false);
   const [price, setPrice] = useState<string>("5000000");
   const [filterByBrand, setFilterByBrand] = useState<string>();
   const [typeSort, setTypeSort] = useState<number>();
+  const location = useLocation();
 
   const debouncedValue = useDebounce<string>(price, 1000);
 
@@ -36,7 +35,7 @@ const ProductPage = (state: Props) => {
   const newArr: [string | undefined] = [""];
 
   const withoutDuplicate = products
-    .filter((item) => item.type === state.state)
+    .filter((item) => item.type === type.type)
     .filter((e) => {
       const isD = newArr.includes(e.brand);
       if (!isD) {
@@ -48,10 +47,19 @@ const ProductPage = (state: Props) => {
 
   return (
     <div>
-      <CheckoutWizard activeStep={1} state={state.state} />
+      <CheckoutWizard
+        activeStep={1}
+        state={`${type.type ? type.type : "Product"}`}
+      />
       <div className="grid grid-cols-4 max-w-7xl px-10 py-10 lg:py-4 mx-auto gap-10">
         <div className="col-span-1">
-          <div className="border border-gray-300 py-3 px-6 rounded-md">
+          <div
+            className={`${
+              type.type
+                ? "border border-gray-300 py-3 px-6 rounded-md"
+                : "hidden"
+            } `}
+          >
             <div
               onClick={() => setModalMenu(!modalMenu)}
               className="flex items-center gap-1 py-3 cursor-pointer"
@@ -61,7 +69,7 @@ const ProductPage = (state: Props) => {
               ) : (
                 <ChevronRightIcon className="h-3 w-3 mt-1 duration-200" />
               )}
-              <h1 className="uppercase text-md">{state.state}</h1>
+              <h1 className="uppercase text-md">{type.type}</h1>
             </div>
             {modalMenu ? (
               <div className="flex flex-col opacity-100 duration-300 h-auto">
@@ -79,7 +87,7 @@ const ProductPage = (state: Props) => {
                     <span className="text-xs text-gray-500">
                       {
                         products
-                          .filter((e) => e.type === state.state)
+                          .filter((e) => e.type === type.type)
                           .filter((i) => i.brand === item.brand).length
                       }
                     </span>
@@ -114,7 +122,9 @@ const ProductPage = (state: Props) => {
           <FeaturedProducts />
         </div>
         <div className="col-span-3">
-          <h1 className="uppercase text-xl mb-6">{state.state}</h1>
+          <h1 className="uppercase text-xl mb-6">
+            {type.type ? type.type : "Product"}
+          </h1>
           <div className="flex items-center justify-between p-4 rounded-xl bg-gray-100">
             <div className="flex ml-2 gap-6">
               <BarsArrowUpIcon
@@ -148,7 +158,8 @@ const ProductPage = (state: Props) => {
           </div>
 
           <ListProductFilter
-            type={state.state}
+            text={location?.state?.valueSearch}
+            type={type.type}
             changeGird={changeGrid}
             byBrand={filterByBrand}
             price={debouncedValue}

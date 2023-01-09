@@ -33,8 +33,9 @@ const ItemPromotion = ({ item }: { item: Product }) => {
 
         <p className="text-xl">Let buy now!!!</p>
         <CountDown hours={8} minutes={59} seconds={10} />
+
         <button className="text-lg font-semibold text-white bg-backgroundColor px-12 rounded-xl py-2 hover:bg-[#0099b1] active:bg-[#3498db] duration-300">
-          BUY NOW
+          <Link to={`/products/${item._id}`}>BUY NOW</Link>
         </button>
       </div>
     </div>
