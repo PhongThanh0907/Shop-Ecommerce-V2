@@ -10,14 +10,6 @@ interface Props {
 
 const CheckoutWizard = ({ activeStep = 0, state, nameProduct }: Props) => {
   const navigate = useNavigate();
-  const arr = [
-    "Home",
-    `${state ? state : ""}`,
-    `${nameProduct ? nameProduct : ""}`,
-    "Giỏ Hàng",
-    "Phương Thức Thanh Toán",
-    "Xác Nhận Đơn Hàng",
-  ];
   return (
     <div className="flex mb-4 lg:mb-5 flex-wrap lg:max-w-7xl mx-auto px-6 lg:px-16 ">
       {state || nameProduct ? (

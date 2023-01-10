@@ -1,5 +1,7 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { axiosClient } from "../services/axiosClient";
+import { baseURL } from "../services/config";
 import { FETCH_ACTIONS } from "./action";
 import { useReducer } from "./useReducer";
 
@@ -34,7 +36,7 @@ export const useFetch = (url: string, typeProduct?: any, id?: any) => {
         isLoading: true,
       });
       try {
-        const data = await axiosClient(url);
+        const data = await axios.get(`${baseURL}/${url}`);
         dispatch({
           type: FETCH_ACTIONS.FETCHAPI_SUCCESS,
           isLoading: false,
