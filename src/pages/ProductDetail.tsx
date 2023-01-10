@@ -2,13 +2,14 @@ import { StarIcon } from "@heroicons/react/24/solid";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+
 import CheckoutWizard from "../components/CheckoutWizard";
 import { useFetch } from "../hooks/useFetch";
 import { Product } from "../types/product.type";
 import LoadingButton from "../components/LoadingButton";
-import Cart from "../components/Cart";
 import { AppDispatch, RootState } from "../app/store";
-import { useDispatch, useSelector } from "react-redux";
 import { AddCart, OpenModalCart } from "../app/features/cart/cartReducer";
 
 type Props = {};
@@ -29,6 +30,23 @@ const ProductDetail = (props: Props) => {
       setProduct(data);
     }
   }, [data, productId]);
+
+  const handleOrder = () => {
+    dispatch(AddCart(product));
+    dispatch(OpenModalCart(true));
+    setModalBuy(!modalBuy);
+    toast.success("Add to cart successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -141,11 +159,7 @@ const ProductDetail = (props: Props) => {
                 </div>
               ) : (
                 <button
-                  onClick={() => {
-                    dispatch(AddCart(product));
-                    dispatch(OpenModalCart(true));
-                    setModalBuy(!modalBuy);
-                  }}
+                  onClick={() => handleOrder()}
                   className="my-4 text-white flex items-center bg-backgroundColor py-3 justify-center gap-2 rounded-3xl font-semibold hover:bg-[#00c0dd] duration-300 active:bg-[#008da3]"
                 >
                   <ShoppingCartIcon className="w-6 h-6" /> Buy now{" "}

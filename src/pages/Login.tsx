@@ -1,16 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "react-toastify";
 
-type Props = {};
+import LoadingButton from "../components/LoadingButton";
+import { axiosClient } from "../services/axiosClient";
+import { USER_API } from "../constants/option";
 
-const Login = (props: Props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+type FormValues = {
+  userName: string;
+  email: string;
+  password: string;
+};
+const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogin = () => {};
+  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<any>();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const res = await axiosClient.post(USER_API.LOGIN_USER, data);
+      setUser(res);
+      if (res) {
+        navigate("/");
+        toast("Logged in successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      if (err) {
+        toast.error("Sorry! Login failed", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("token", user?.token);
+  }, [user]);
 
   return (
     <div className="max-w-7xl mx-auto px-12 mt-2">
@@ -21,47 +78,71 @@ const Login = (props: Props) => {
         <ChevronRightIcon className="h-3 w-3 mt-1" />
         <h1>Login</h1>
       </div>
-      <div className="relative flex items-center justify-center">
-        <form onSubmit={handleLogin} className="text-center font-bold w-[40%]">
-          <h1 className="text-2xl mb-6">Đăng Nhập</h1>
-          <div className="bg-backgroundColor py-10 w-full rounded-lg sm:w-full">
-            <div className="flex justify-between items-center w-[90%] m-auto my-6">
-              <h1 className="text-[white] font-semibold">Email (*)</h1>
+      <div className="flex items-center justify-center">
+        {loading ? (
+          <div className="flex justify-center py-10">
+            <LoadingButton />
+          </div>
+        ) : (
+          <div className="bg-backgroundColor p-4 mt-10 w-[30vw] mx-auto rounded-lg">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col w-full gap-y-4"
+            >
+              <h1 className="text-white font-bold text-center py-4 text-2xl">
+                Login
+              </h1>
               <input
-                className="focus:outline-none focus:shadow-outline py-1 px-2 rounded w-[60%]"
-                type="email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                className="px-4 w-full bg-white focus:outline-none py-3 rounded-md text-black font-semibold"
+                {...register("email", {
+                  required: true,
+                  pattern:
+                    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                })}
               />
-            </div>
-            <div className="flex justify-between items-center w-[90%] m-auto">
-              <h1 className="text-[white] font-semibold">Password (*)</h1>
+              {errors.email?.type === "required" && (
+                <p className="text-red-600" role="alert">
+                  (*) Email is required
+                </p>
+              )}
+              {errors.email?.type === "pattern" && (
+                <p className="text-red-600" role="alert">
+                  (*) Email invalidate
+                </p>
+              )}
+
               <input
-                className="focus:outline-none focus:shadow-outline py-1 px-2 rounded w-[60%]"
                 type="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="px-4 w-full bg-white focus:outline-none py-3 rounded-md text-black font-semibold"
+                {...register("password", {
+                  required: true,
+                })}
               />
-            </div>
-            <div className="flex justify-between items-center w-[90%] m-auto my-6 sm:text-sm sm:w-full gap-2 sm:grid sm:grid-cols-1">
+              {errors.password?.type === "required" && (
+                <p className="text-red-600" role="alert">
+                  (*) Email is required
+                </p>
+              )}
               <button
                 type="submit"
-                className="bg-[white] w-full px-8 py-2 rounded sm:px-6 sm:py-2 sm:text-gray-400 sm:w-[50%] sm:m-auto sm:my-2"
+                className="text-white font-semibold bg-black opacity-70 hover:opacity-90 duration-300 active:opacity-100 py-2 my-4 rounded-md"
               >
                 Login
               </button>
               <Link to="/user/register">
-                <p className="text-[#bfc9d2]">
-                  You are not have account{" "}
-                  <button className="text-[white] underline hover:text-[#0099b1] duration-300">
+                <p className="text-gray-600 text-right">
+                  You have account{" "}
+                  <button className="text-[white] underline hover:text-black duration-300">
                     Register
                   </button>{" "}
                   now!
                 </p>
               </Link>
-            </div>
+            </form>
           </div>
-        </form>
+        )}
       </div>
     </div>
   );

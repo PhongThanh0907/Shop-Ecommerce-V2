@@ -1,30 +1,73 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-type Props = {};
+import LoadingButton from "../components/LoadingButton";
+import { toast } from "react-toastify";
+import { axiosClient } from "../services/axiosClient";
+import { USER_API } from "../constants/option";
 
-const Register = (props: Props) => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+type FormValues = {
+  userName: string;
+  email: string;
+  password: string;
+};
+
+const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // const registerUser = async (e: any) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await userAPI.createUser(values);
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const handleRegister = (e: any) => {
-    console.log("as");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<any>();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
+    try {
+      const res = await axiosClient.post(USER_API.REGISTER_USER, data);
+      setUser(res);
+      if (res) {
+        navigate("/");
+        toast("Successful account registration!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      if (err) {
+        toast.error("Sorry! Register Fail", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    }
   };
+
+  useEffect(() => {
+    localStorage.setItem("token", user?.token);
+  }, [user]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto px-12 mt-2">
@@ -36,58 +79,95 @@ const Register = (props: Props) => {
         <h1>Register</h1>
       </div>
       <div className="flex items-center justify-center">
-        <form
-          onSubmit={handleRegister}
-          className="text-center relative z-10 font-bold w-[40%]"
-        >
-          <h1 className="text-2xl mb-6">Register</h1>
-          <div className="bg-backgroundColor py-10 w-[600px] rounded-lg sm:w-full">
-            <div className="flex justify-between items-center w-[90%] m-auto my-6">
-              <h1 className="text-[white] font-semibold">User name (*)</h1>
+        {loading ? (
+          <div className="flex justify-center py-10">
+            <LoadingButton />
+          </div>
+        ) : (
+          <div className="bg-backgroundColor p-4 mt-10 w-[30vw] mx-auto rounded-lg">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col w-full gap-y-4"
+            >
+              <h1 className="text-white font-bold text-center py-4 text-2xl">
+                Register
+              </h1>
               <input
-                className="focus:outline-none focus:shadow-outline py-1 px-2 rounded w-[60%]"
-                type="name"
-                name="username"
-                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+                placeholder="User name"
+                className="px-4 w-full bg-white focus:outline-none py-3 rounded-md text-black font-semibold"
+                {...register("userName", { required: true, minLength: 2 })}
               />
-            </div>
-            <div className="flex justify-between items-center w-[90%] m-auto my-6">
-              <h1 className="text-[white] font-semibold">Email (*)</h1>
+              {errors.userName?.type === "required" && (
+                <p className="text-red-600" role="alert">
+                  (*) Name is required
+                </p>
+              )}
+              {errors.userName?.type === "minLength" && (
+                <p className="text-red-600" role="alert">
+                  (*) Name must be more than 2 characters
+                </p>
+              )}
+
               <input
-                className="focus:outline-none focus:shadow-outline py-1 px-2 rounded w-[60%]"
-                type="email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                className="px-4 w-full bg-white focus:outline-none py-3 rounded-md text-black font-semibold"
+                {...register("email", {
+                  required: true,
+                  pattern:
+                    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                })}
               />
-            </div>
-            <div className="flex justify-between items-center w-[90%] m-auto">
-              <h1 className="text-[white] font-semibold">Password (*)</h1>
+              {errors.email?.type === "required" && (
+                <p className="text-red-600" role="alert">
+                  (*) Email is required
+                </p>
+              )}
+              {errors.email?.type === "pattern" && (
+                <p className="text-red-600" role="alert">
+                  (*) Email invalidate
+                </p>
+              )}
+
               <input
-                className="focus:outline-none focus:shadow-outline py-1 px-2  rounded w-[60%]"
                 type="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="px-4 w-full bg-white focus:outline-none py-3 rounded-md text-black font-semibold"
+                {...register("password", {
+                  required: true,
+                  minLength: 6,
+                })}
               />
-            </div>
-            <div className="flex justify-between items-center w-[90%] m-auto my-6 sm:text-sm sm:w-full sm:gap-3 sm:grid sm:grid-cols-1">
+              {errors.password?.type === "required" && (
+                <p className="text-red-600" role="alert">
+                  (*) Password is required
+                </p>
+              )}
+
+              {errors.password?.type === "minLength" && (
+                <p className="text-red-600" role="alert">
+                  (*) Password must be more than 6 characters
+                </p>
+              )}
               <button
                 type="submit"
-                className="bg-[white] px-10 py-2 rounded sm:w-[50%] sm:m-auto"
+                className="text-white font-semibold bg-black opacity-70 hover:opacity-90 duration-300 active:opacity-100 py-2 my-4 rounded-md"
               >
                 Register
+                {user ? <div className="Toastify"></div> : <></>}
               </button>
-              <Link to="/dang-nhap">
-                <p className="text-[#bfc9d2]">
-                  You are have account{" "}
-                  <button className="text-[white] underline hover:text-[#0099b1] duration-300">
+              <Link to="/user/login">
+                <p className="text-gray-600 text-right">
+                  You have account{" "}
+                  <button className="text-[white] underline hover:text-black duration-300">
                     Login
                   </button>{" "}
                   now!
                 </p>
               </Link>
-            </div>
+            </form>
           </div>
-        </form>
+        )}
       </div>
     </div>
   );

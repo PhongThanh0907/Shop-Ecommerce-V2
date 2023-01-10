@@ -79,3 +79,8 @@ export const listIcon = [
   "https://github.com/PhongThanh0907/cf-house-clone/blob/main/public/assets/zalo.png?raw=true",
   "https://github.com/PhongThanh0907/cf-house-clone/blob/main/public/assets/logomessage.png?raw=true",
 ];
+
+export const USER_API = {
+  REGISTER_USER: '/users/',
+  LOGIN_USER: '/users/login'
+}

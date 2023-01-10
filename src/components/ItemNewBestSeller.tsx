@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { Product } from "../types/product.type";
 import { useDispatch } from "react-redux";
@@ -16,6 +17,20 @@ const ItemNewBestSeller = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleOrder = () => {
+    dispatch(AddCart(item));
+    toast.success("Add to cart successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -45,7 +60,9 @@ const ItemNewBestSeller = ({
               {oldPrice !== 0 && <>{oldPrice?.toLocaleString("vi-VN")}</>}
             </p>
             <div
-              onClick={() => dispatch(AddCart(item))}
+              onClick={() => {
+                handleOrder();
+              }}
               className="p-2 opacity-40 bg-gray-300 rounded-full cursor-pointer mr-2 group-hover:opacity-100 duration-300 group-hover:bg-backgroundColor text-white"
             >
               <ShoppingCartIcon className="h-5 w-5" />

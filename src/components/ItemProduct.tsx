@@ -1,15 +1,31 @@
 import { useState, useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { Product } from "../types/product.type";
-import { useDispatch } from "react-redux";
 import { AppDispatch } from "../app/store";
 import { AddCart } from "../app/features/cart/cartReducer";
 
 const ItemProduct = ({ item }: { item: Product }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleOrder = () => {
+    dispatch(AddCart(item));
+    toast.success("Add to cart successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -27,9 +43,13 @@ const ItemProduct = ({ item }: { item: Product }) => {
           </div>
           <div className="col-span-3 flex flex-col justify-center">
             <h1 className="text-sm text-gray-400 mb-1">{item.brand}</h1>
-            <h1 className="text-lg text-blue-600 font-semibold my-1">
+
+            <Link
+              to={`/products/${item._id}`}
+              className="text-blue-600 font-semibold text-md h-28 flex"
+            >
               {item.nameProduct}
-            </h1>
+            </Link>
             <div className="flex gap-1 my-1 mb-2">
               <StarIcon className="text-yellow-400 h-3 w-3" color="" />
               <StarIcon className="text-yellow-400 h-3 w-3" color="" />
@@ -51,7 +71,7 @@ const ItemProduct = ({ item }: { item: Product }) => {
               {item.price.toLocaleString("vi-VN")}đ
             </h4>
             <button
-              onClick={() => dispatch(AddCart(item))}
+              onClick={() => handleOrder()}
               className="flex items-center gap-4 w-full justify-center bg-gray-200 py-2 rounded-3xl text-white font-bold hover:bg-backgroundColor duration-300 active:bg-[#01bedb]"
             >
               Buy now <ShoppingCartIcon className="w-5 h-5" />
