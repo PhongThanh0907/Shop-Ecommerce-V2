@@ -65,7 +65,7 @@ const ProductDetail = (props: Props) => {
           <LoadingButton />
         </div>
       ) : (
-        <div className="grid grid-cols-8 gap-8 max-w-7xl px-10 mx-auto my-10">
+        <div className="grid grid-cols-1 lg:grid-cols-8 lg:gap-8 max-w-7xl px-5 gap-y-4 lg:gap-y-0 lg:px-10 mx-auto my-10">
           <div className="col-span-3">
             {changeImage === "" ? (
               <>
@@ -116,7 +116,7 @@ const ProductDetail = (props: Props) => {
               quas quisquam cum.
             </p>
           </div>
-          <div className="col-span-2 relative">
+          <div className="lg:col-span-2 relative">
             <div className="flex flex-col justify-center border-2 p-6 border-gray-300 rounded-2xl">
               <h1 className="text-md text-gray-400 border-b border-gray-200 pb-2">
                 Status:{" "}

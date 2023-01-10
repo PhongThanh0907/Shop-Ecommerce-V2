@@ -31,13 +31,13 @@ const ListProductFilter = ({
   return (
     <div>
       {changeGird === false ? (
-        <div className="grid grid-cols-4 gap-2 gap-y-2 ">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 gap-y-2 ">
           {products.map((item: Product) => (
             <ItemNewBestSeller key={item._id} item={item} />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-2 gap-y-2 ">
+        <div className="hidden lg:grid grid-cols-1 gap-2 gap-y-2 ">
           {products.map((item: Product) => (
             <ItemProduct key={item._id} item={item} />
           ))}

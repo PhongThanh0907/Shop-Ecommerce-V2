@@ -32,16 +32,16 @@ const CustomInput = ({
   }, []);
 
   return (
-    <div className="flex justify-between border border-gray-200 rounded-3xl px-1 pl-4 h-[35px] py-1 w-[60%]">
+    <div className="flex justify-between border border-gray-200 rounded-3xl px-1 pl-2 lg:pl-4 h-[35px] py-1 w-[90%] lg:w-[60%]">
       <div>
-        <p>{item.numberCount}</p>
+        <p className="text-sm lg:text-md">{item.numberCount}</p>
       </div>
       <div className="flex gap-1">
         <div
           onClick={() => {
             setNumberCount(numberCount + 1);
           }}
-          className="bg-gray-100 rounded-full p-[4px] px-[6px] flex justify-center items-center cursor-pointer"
+          className="bg-gray-100 rounded-full p-1 lg:p-[4px] lg:px-[6px] flex justify-center items-center cursor-pointer"
         >
           <PlusIcon className="h-3 w-3" />
         </div>
@@ -53,7 +53,7 @@ const CustomInput = ({
           }}
           className={`${
             numberCount === 1 ? "bg-gray-300" : "bg-gray-100 cursor-pointer"
-          }  rounded-full p-[4px] px-[7px] flex justify-center items-center duration-300`}
+          }  rounded-full p-1 lg:p-[4px] lg:px-[7px] flex justify-center items-center duration-300`}
         >
           <MinusIcon className="h-3 w-3" />
         </div>

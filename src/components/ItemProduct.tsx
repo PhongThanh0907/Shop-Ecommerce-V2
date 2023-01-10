@@ -64,10 +64,10 @@ const ItemProduct = ({ item }: { item: Product }) => {
             <p className="text-sm text-gray-500"> - Insurance: 36 months</p>
           </div>
           <div className="col-span-2 flex flex-col justify-center">
-            <p className="border-b border-gray-200 pb-3 text-gray-600">
+            <p className="border-b border-gray-200 pb-3 text-gray-600 text-center">
               Status: <span className="text-green-500">Stocking</span>
             </p>
-            <h4 className="text-red-500 text-xl my-4">
+            <h4 className="text-red-500 text-xl my-4 text-center">
               {item.price.toLocaleString("vi-VN")}đ
             </h4>
             <button

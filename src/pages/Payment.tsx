@@ -7,7 +7,7 @@ const Payment = (props: Props) => {
   return (
     <div>
       <CheckoutWizard activeStep={2} />
-      <div className="max-w-7xl px-10 mx-auto">
+      <div className="max-w-7xl px-5 lg:px-10 mx-auto">
         <h4 className="border-b-2 border-backgroundColor pb-2 text-xl pt-10">
           Your payment
         </h4>
@@ -19,7 +19,7 @@ const Payment = (props: Props) => {
             <p>Shipping fee</p>
             <p>Total price</p>
           </div>
-          <div className="flex flex-col gap-y-2">
+          <div className="flex flex-col gap-y-2 justify-end text-right lg:text-left">
             <h4>Total Price</h4>
             <h4>3,980,000đ</h4>
             <p>3,980,000đ</p>

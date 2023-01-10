@@ -51,18 +51,18 @@ const ProductPage = (type: Props) => {
         activeStep={1}
         state={`${type.type ? type.type : "Product"}`}
       />
-      <div className="grid grid-cols-4 max-w-7xl px-10 py-10 lg:py-4 mx-auto gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-4 max-w-7xl lg:px-10 px-5  py-2 lg:py-4 mx-auto lg:gap-10">
         <div className="col-span-1">
           <div
             className={`${
               type.type
-                ? "border border-gray-300 py-3 px-6 rounded-md"
+                ? "border border-gray-300 lg:py-3 px-6 rounded-md"
                 : "hidden"
             } `}
           >
             <div
               onClick={() => setModalMenu(!modalMenu)}
-              className="flex items-center gap-1 py-3 cursor-pointer"
+              className="flex items-center gap-1 py-2 lg:py-3 cursor-pointer"
             >
               {modalMenu ? (
                 <ChevronUpIcon className="h-3 w-3 mt-1 duration-200" />
@@ -99,7 +99,7 @@ const ProductPage = (type: Props) => {
               <div className="opacity-0 duration-500 h-0 w-full"></div>
             )}
           </div>
-          <div className="py-10">
+          <div className="py-4 lg:py-10">
             <h4 className="text-lg pb-2 border-b-2 border-backgroundColor">
               Filter By Price
             </h4>
@@ -119,14 +119,16 @@ const ProductPage = (type: Props) => {
               Price: {parseInt(price).toLocaleString("vi-VN")}đ
             </p>
           </div>
-          <FeaturedProducts />
+          <div className="hidden lg:inline">
+            <FeaturedProducts />
+          </div>
         </div>
         <div className="col-span-3">
-          <h1 className="uppercase text-xl mb-6">
+          <h1 className="uppercase text-xl mb-3 lg:mb-6">
             {type.type ? type.type : "Product"}
           </h1>
-          <div className="flex items-center justify-between p-4 rounded-xl bg-gray-100">
-            <div className="flex ml-2 gap-6">
+          <div className="flex items-center justify-end lg:justify-between p-4 rounded-xl bg-gray-100">
+            <div className="hidden lg:flex lg:ml-2 gap-2 lg:gap-6">
               <BarsArrowUpIcon
                 onClick={() => setChangeGrid(false)}
                 className={`${
@@ -144,7 +146,7 @@ const ProductPage = (type: Props) => {
             <div className="">
               <select
                 id="filter"
-                className="border border-backgroundColor rounded-xl py-1 px-2 focus:outline-none focus:shadow-outline text-gray-400 mr-8 sm:mr-2"
+                className="border border-backgroundColor rounded-xl py-1 px-2 focus:outline-none focus:shadow-outline text-gray-400 lg:mr-8 sm:mr-2"
                 onChange={(e: any) => setTypeSort(e.target.value)}
               >
                 <option className="w-[100px]" value="1">

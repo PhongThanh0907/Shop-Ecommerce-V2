@@ -70,8 +70,8 @@ const Login = () => {
   }, [user]);
 
   return (
-    <div className="max-w-7xl mx-auto px-12 mt-2">
-      <div className="flex gap-4 py-5 items-center">
+    <div className="max-w-7xl mx-auto px-8 lg:px-12 mt-2">
+      <div className="flex gap-4 lg:py-5 items-center">
         <Link to="/">
           <h1 className="font-semibold">Home</h1>
         </Link>
@@ -84,7 +84,7 @@ const Login = () => {
             <LoadingButton />
           </div>
         ) : (
-          <div className="bg-backgroundColor p-4 mt-10 w-[30vw] mx-auto rounded-lg">
+          <div className="bg-backgroundColor p-4 mt-10 lg:w-[30vw] mx-auto rounded-lg">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col w-full gap-y-4"

@@ -72,7 +72,7 @@ const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
             } opacity-100 duration-300 mx-8 flex flex-col gap-y-2`}
           >
             {menuList.map((item, index) => (
-              <div key={index} className="flex">
+              <div key={index} className="lg:flex">
                 <Link
                   className="text-sm font-semibold flex items-center"
                   to={item.link}
@@ -90,7 +90,7 @@ const TopNav = ({ openMenuMobile }: { openMenuMobile: boolean }) => {
                   )}
                 </Link>
                 {openMenu && item.list ? (
-                  <div className="p-3 border duration-300  border-t-2 border-t-backgroundColor relative">
+                  <div className="p-3 border duration-300 border-backgroundColor my-2 lg:my-0 lg:border-t-2 lg:border-t-backgroundColor relative">
                     <div className="flex flex-col">
                       {item.list?.map((itemMenu, index) => (
                         <Link
